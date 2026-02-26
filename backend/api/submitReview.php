@@ -74,7 +74,7 @@ try {
     $check_stmt->close();
 
     // --- Perform Sentiment Analysis using Gemini API ---
-    $apiKey = "AIzaSyCxiy_egwKwxc6x1SFCF2U_4PTLHfPoB30"; // Canvas will automatically provide this at runtime. DO NOT put your actual key here.
+    $apiKey = "YOUR_API_KEY"; // Canvas will automatically provide this at runtime. DO NOT put your actual key here.
     $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . $apiKey;
 
     // Craft a clear prompt for sentiment analysis
