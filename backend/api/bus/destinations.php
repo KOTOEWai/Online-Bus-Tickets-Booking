@@ -1,8 +1,8 @@
 <?php
-include('./cors.php');
+include('../../config/cors.php');
 
 
-include '../db/BusDb.php';
+include '../../config/db.php';
 
 
 // Handle preflight OPTIONS request

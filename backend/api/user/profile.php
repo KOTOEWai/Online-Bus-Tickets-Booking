@@ -1,5 +1,5 @@
 <?php
-include('./cors.php');
+include('../../config/cors.php');
 
 
 
@@ -18,7 +18,7 @@ ini_set('error_log', __DIR__ . '/php-error.log');
 
 try {
 
-include '../db/BusDb.php';
+    include '../../config/db.php';
 
     if (!isset($conn) || $conn->connect_error) {
         throw new Exception("Database connection failed: " . ($conn->connect_error ?? "Unknown error"));
@@ -29,9 +29,9 @@ include '../db/BusDb.php';
     $data = json_decode($json_data, true);
 
     // Validate and sanitize input
-    $user_id = (int)($data['user_id'] ?? 0);
-    $name = (string)($data['name'] ?? ''); // Corresponds to 'username' in frontend
-    $email = (string)($data['email'] ?? '');
+    $user_id = (int) ($data['user_id'] ?? 0);
+    $name = (string) ($data['name'] ?? ''); // Corresponds to 'username' in frontend
+    $email = (string) ($data['email'] ?? '');
     // $phone = (string)($data['phone'] ?? ''); // Uncomment if you add phone to users table
 
     // Basic validation for required fields

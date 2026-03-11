@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { motion, AnimatePresence} from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Lock, LogIn, AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react'; // Lucide icons for inputs and messages
 import { containerVariants, itemVariants, messageVariants } from '../hooks/useAnimationVariants';
 
@@ -24,7 +24,7 @@ export default function Login() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/login.php`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/login.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include', // Important for session/cookie handling if your backend uses it
@@ -35,13 +35,13 @@ export default function Login() {
       if (res.ok && data.status === 'success') {
         localStorage.setItem('userRole', data.role); // Store user role
         localStorage.setItem('userId', data.user_id); // Store user ID
-        localStorage.setItem('user_name',data.full_name)
-        localStorage.setItem('email',data.email);
+        localStorage.setItem('user_name', data.full_name)
+        localStorage.setItem('email', data.email);
         localStorage.setItem('isLoggedIn', 'true'); // Login ဝင်ထားကြောင်း မှတ်သား
 
 
         setMessageType('success');
-        setMessage( `Login successful with ${data.role} role!`);
+        setMessage(`Login successful with ${data.role} role!`);
         setTimeout(() => {
           navigate(data.role === 'admin' ? '/admin' : '/');
         }, 2000); // Navigate after a short delay for message to show
@@ -65,7 +65,7 @@ export default function Login() {
     console.log('Attempting Google Sign-In...');
   };
 
- 
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 font-sans text-gray-800 p-4">
@@ -87,9 +87,8 @@ export default function Login() {
           <AnimatePresence>
             {message && (
               <motion.div
-                className={`p-3 rounded-lg text-sm mb-6 flex items-center gap-2 ${
-                  messageType === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
-                }`}
+                className={`p-3 rounded-lg text-sm mb-6 flex items-center gap-2 ${messageType === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
+                  }`}
                 variants={messageVariants}
                 initial="hidden"
                 animate="visible"

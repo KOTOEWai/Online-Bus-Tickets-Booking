@@ -1,6 +1,6 @@
 <?php
-include('./cors.php');
-include '../db/BusDb.php';
+include('../../config/cors.php');
+include '../../config/db.php';
 
 // Preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -26,13 +26,13 @@ try {
     $data = json_decode($raw, true);
 
     // Inputs
-    $title   = trim((string)($data['title'] ?? ''));
-    $message = trim((string)($data['message'] ?? ''));
-    
-    $adminId = (int)($data['admin_user_id'] ?? 0);
+    $title = trim((string) ($data['title'] ?? ''));
+    $message = trim((string) ($data['message'] ?? ''));
+
+    $adminId = (int) ($data['admin_user_id'] ?? 0);
     // Send to one user if > 0; send to all users if 0 or missing.
-    $targetUserId = isset($data['target_user_id']) ? (int)$data['target_user_id'] : 0;
-    $type   = (string)($data['type'] ?? 'promotion'); // e.g., promotion | booking | reminder
+    $targetUserId = isset($data['target_user_id']) ? (int) $data['target_user_id'] : 0;
+    $type = (string) ($data['type'] ?? 'promotion'); // e.g., promotion | booking | reminder
 
     // Basic validation
     if ($title === '' || $message === '' || $adminId === 0) {
@@ -49,22 +49,24 @@ try {
     if ($targetUserId > 0) {
         // ✅ PREPARED SELECT (DO NOT use ->query() with '?')
         $sel = $conn->prepare("SELECT user_id FROM users WHERE user_id = ?");
-        if (!$sel) throw new Exception("Prepare failed (select one): " . $conn->error);
+        if (!$sel)
+            throw new Exception("Prepare failed (select one): " . $conn->error);
         $sel->bind_param("i", $targetUserId);
         $sel->execute();
 
         // Use bind_result to avoid mysqlnd dependency
         $sel->bind_result($uid);
         while ($sel->fetch()) {
-            $userIds[] = (int)$uid;
+            $userIds[] = (int) $uid;
         }
         $sel->close();
     } else {
         // All users (no placeholders, so a normal query is fine)
         $rs = $conn->query("SELECT user_id FROM users");
-        if (!$rs) throw new Exception("Failed to fetch users: " . $conn->error);
+        if (!$rs)
+            throw new Exception("Failed to fetch users: " . $conn->error);
         while ($row = $rs->fetch_assoc()) {
-            $userIds[] = (int)$row['user_id'];
+            $userIds[] = (int) $row['user_id'];
         }
         $rs->free();
     }
@@ -85,7 +87,8 @@ try {
         INSERT INTO user_notifications (user_id, type, title, message, is_read, created_at)
         VALUES (?, ?, ?, ?, 0, NOW())
     ");
-    if (!$ins) throw new Exception("Prepare failed (insert): " . $conn->error);
+    if (!$ins)
+        throw new Exception("Prepare failed (insert): " . $conn->error);
 
     // user_id=int, type=string, title=string, message=string
     foreach ($userIds as $uidVal) {
@@ -101,8 +104,8 @@ try {
     echo json_encode([
         "success" => true,
         "message" => "Notifications sent.",
-        "count"   => count($userIds),
-        "target"  => ($targetUserId > 0 ? "single_user" : "all_users")
+        "count" => count($userIds),
+        "target" => ($targetUserId > 0 ? "single_user" : "all_users")
     ]);
 
 } catch (Exception $e) {

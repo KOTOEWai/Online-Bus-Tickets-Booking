@@ -1,6 +1,6 @@
 <?php
 // Enable CORS
-include('./cors.php');
+include('../../config/cors.php');
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -17,7 +17,7 @@ ini_set('error_log', __DIR__ . '/php-error.log');
 
 try {
     // Include your database connection file
-include('../db/BusDb.php');
+    include('../../config/db.php');
 
     if (!isset($conn) || $conn->connect_error) {
         throw new Exception("Database connection failed: " . ($conn->connect_error ?? "Unknown error"));

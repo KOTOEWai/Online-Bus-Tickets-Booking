@@ -1,6 +1,6 @@
 <?php
-include('../../../db/BusDb.php');
-include('../../../api/cors.php');
+include('../../../config/db.php');
+include('../../../config/cors.php');
 
 // --- PHP Error Handling ---
 error_reporting(E_ALL);

@@ -1,6 +1,6 @@
 <?php
-include('../../../db/BusDb.php');
-include('../../../api/cors.php');
+include('../../../config/db.php');
+include('../../../config/cors.php');
 
 $sql = "SELECT s.*, b.bus_number, r.start_location, r.end_location 
         FROM schedules s

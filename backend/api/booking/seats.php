@@ -1,7 +1,7 @@
 <?php
-include('./cors.php');
+include('../../config/cors.php');
 session_start();
-include '../db/BusDb.php';
+include '../../config/db.php';
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -17,7 +17,7 @@ ini_set('error_log', __DIR__ . '/php-error.log');
 // --- End Error Handling Configuration ---
 
 try {
- 
+
 
     if (!isset($conn) || $conn->connect_error) {
         throw new Exception("Database connection failed: " . ($conn->connect_error ?? "Unknown error"));
@@ -91,7 +91,7 @@ try {
     if ($seats_result) {
         while ($row = $seats_result->fetch_assoc()) {
             // Ensure is_booked is treated as a boolean/number
-            $row['is_booked'] = (int)$row['is_booked'];
+            $row['is_booked'] = (int) $row['is_booked'];
             $seats_data[] = $row;
         }
     }

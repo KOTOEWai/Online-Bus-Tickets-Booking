@@ -22,7 +22,7 @@ try {
     // Include your database connection file
     // Corrected path: assuming BusDb.php is directly inside the 'db' folder,
     // and this PHP file is in 'backend/api/'
-    include('../../db/BusDb.php');
+    include('../../config/db.php');
 
     // Check if the database connection was successful
     if (!isset($conn) || $conn->connect_error) {

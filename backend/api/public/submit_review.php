@@ -1,5 +1,5 @@
 <?php
-include('./cors.php');
+include('../../config/cors.php');
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -16,7 +16,7 @@ ini_set('error_log', __DIR__ . '/php-error.log');
 
 try {
     // Include your database connection file
-     include ('../db/BusDb.php');
+    include('../../config/db.php');
 
     if (!isset($conn) || $conn->connect_error) {
         throw new Exception("Database connection failed: " . ($conn->connect_error ?? "Unknown error"));
@@ -27,9 +27,9 @@ try {
     $data = json_decode($json_data, true);
 
     // Validate and sanitize input
-    $user_id = (int)($data['user_id'] ?? 0);
+    $user_id = (int) ($data['user_id'] ?? 0);
     $rating = filter_var($data['rating'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 5]]);
-    $comment = (string)($data['comment'] ?? '');
+    $comment = (string) ($data['comment'] ?? '');
 
     // Basic validation for required fields
     if ($user_id === 0 || $rating === false || empty($comment)) {
@@ -74,7 +74,7 @@ try {
     $check_stmt->close();
 
     // --- Perform Sentiment Analysis using Gemini API ---
-    $apiKey = "YOUR_API_KEY"; // Canvas will automatically provide this at runtime. DO NOT put your actual key here.
+    $apiKey = getenv('GEMINI_API_KEY') ?: "YOUR_API_KEY_HERE";
     $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . $apiKey;
 
     // Craft a clear prompt for sentiment analysis

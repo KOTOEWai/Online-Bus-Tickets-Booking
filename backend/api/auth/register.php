@@ -1,8 +1,8 @@
 <?php
-include('./cors.php');
+include('../../config/cors.php');
 
 session_start();
-include('../db/BusDb.php');
+include('../../config/db.php');
 
 // Get JSON input
 $data = json_decode(file_get_contents("php://input"), true);
@@ -10,7 +10,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 $name = trim($data['name']);
 $email = trim($data['email']);
 $phone = trim($data['phone']);
-$password = md5($data['password']);
+$password = password_hash($data['password'], PASSWORD_DEFAULT);
 
 $response = [];
 

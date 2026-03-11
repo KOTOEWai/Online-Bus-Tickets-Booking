@@ -1,5 +1,5 @@
 <?php
-include('../../../db/BusDb.php');
+include('../../../config/db.php');
 date_default_timezone_set('Asia/Yangon');
 
 $startDate = new DateTime();

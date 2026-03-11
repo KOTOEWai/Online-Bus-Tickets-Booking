@@ -1,5 +1,5 @@
 <?php
-include('./cors.php');
+include('../../config/cors.php');
 
 
 // Handle preflight OPTIONS request
@@ -17,7 +17,7 @@ ini_set('error_log', __DIR__ . '/php-error.log');
 
 try {
 
-      include '../db/BusDb.php';
+    include '../../config/db.php';
 
     if (!isset($conn) || $conn->connect_error) {
         throw new Exception("Database connection failed: " . ($conn->connect_error ?? "Unknown error"));
@@ -28,9 +28,9 @@ try {
     $data = json_decode($json_data, true);
 
     // Validate and sanitize input
-    $user_id = (int)($data['user_id'] ?? 0);
-    $current_password = (string)($data['current_password'] ?? '');
-    $new_password = (string)($data['new_password'] ?? '');
+    $user_id = (int) ($data['user_id'] ?? 0);
+    $current_password = (string) ($data['current_password'] ?? '');
+    $new_password = (string) ($data['new_password'] ?? '');
 
     // Basic validation for required fields
     if ($user_id === 0 || empty($current_password) || empty($new_password)) {
@@ -70,16 +70,15 @@ try {
     $hashed_current_password_in_db = $user['password'];
     $stmt_fetch->close();
 
-      if (md5($current_password) !== $hashed_current_password_in_db) {
+    if (!password_verify($current_password, $hashed_current_password_in_db) && md5($current_password) !== $hashed_current_password_in_db) {
         http_response_code(401); // Unauthorized
         echo json_encode(["success" => false, "message" => "Incorrect current password."]);
         $conn->close();
         exit();
     }
 
-    // 3. Hash the new password using MD5
-    // FIX: Changed from password_hash() to md5()
-    $hashed_new_password = md5($new_password);
+    // 3. Hash the new password securely
+    $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
 
     // 4. Update the password in the database
     $sql_update_password = "UPDATE users SET password = ? WHERE user_id = ?";

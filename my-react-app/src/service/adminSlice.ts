@@ -33,7 +33,7 @@ export const adminApi = createApi({
       { startDate: string; endDate: string }
     >({
       query: ({ startDate, endDate }) => ({
-        url: "getSalesReport.php",
+        url: "reports/sales.php",
         method: "POST",
         body: { startDate, endDate },
       }),

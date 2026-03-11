@@ -1,10 +1,13 @@
 <?php
-// Allow from any origin
-if (isset($_SERVER['HTTP_ORIGIN'])) {
-    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+// Restrict origin to specific frontend URL
+$allowed_origin = getenv('FRONTEND_URL') ?: "http://localhost:3000";
+
+if (isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] === $allowed_origin) {
+    header("Access-Control-Allow-Origin: $allowed_origin");
 } else {
-    // Fallback for requests without HTTP_ORIGIN (e.g., direct requests, some tools)
-    header("Access-Control-Allow-Origin: *");
+    // In production, you might want to return 403 for unauthorized origins
+    // For now, we allow the fallback for development ease but recommend restriction
+    header("Access-Control-Allow-Origin: $allowed_origin");
 }
 
 // Allow specific methods

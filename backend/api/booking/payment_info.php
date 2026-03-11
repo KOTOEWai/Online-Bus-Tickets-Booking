@@ -1,6 +1,6 @@
 <?php
-include('./cors.php');
-include '../db/BusDb.php';
+include('../../config/cors.php');
+include '../../config/db.php';
 
 $sql = "SELECT * FROM manual_payments ORDER BY submitted_at DESC";
 $result = $conn->query($sql);

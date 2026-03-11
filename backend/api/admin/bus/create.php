@@ -1,6 +1,6 @@
 <?php
-include('../../../db/BusDb.php');
-include('../../../api/cors.php');
+include('../../../config/db.php');
+include('../../../config/cors.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $bus_number = $_POST['bus_number'];

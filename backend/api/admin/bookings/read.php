@@ -1,7 +1,7 @@
 <?php
 // Include database connection and CORS headers
-include('../../../db/BusDb.php');
-include('../../../api/cors.php'); // Ensure this file correctly sets CORS headers
+include('../../../config/db.php');
+include('../../../config/cors.php'); // Ensure this file correctly sets CORS headers
 
 // Set content type to JSON
 header("Content-Type: application/json; charset=UTF-8");

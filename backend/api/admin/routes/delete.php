@@ -1,6 +1,6 @@
 <?php
-include('../../../db/BusDb.php');
-include('../../../api/cors.php');
+include('../../../config/db.php');
+include('../../../config/cors.php');
 
 $data = json_decode(file_get_contents("php://input"));
 $route_id = (int) $data->route_id;

@@ -1,6 +1,6 @@
 <?php
-include('../../../db/BusDb.php');
-include('../../../api/cors.php');
+include('../../../config/db.php');
+include('../../../config/cors.php');
 
 header('Content-Type: application/json');
 $data = json_decode(file_get_contents("php://input"));

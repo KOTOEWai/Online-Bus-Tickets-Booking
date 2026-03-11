@@ -1,5 +1,5 @@
 <?php
-include('./cors.php');
+include('../../config/cors.php');
 
 
 // Handle preflight OPTIONS request
@@ -19,8 +19,8 @@ ini_set('error_log', __DIR__ . '/php-error.log'); // Specify a log file path.
 try {
     // Include your database connection file
     // Assuming BusDb.php defines $conn
-    include('../db/BusDb.php'); 
-   
+    include('../../config/db.php');
+
 
     // Check if the database connection was successful
     if (!isset($conn) || $conn->connect_error) {
@@ -91,8 +91,8 @@ try {
             // Split the range (e.g., "35000-50000")
             list($minPrice, $maxPrice) = explode('-', $priceRangeFilter);
             $sql .= " AND s.price BETWEEN ? AND ?";
-            $params[] = (int)$minPrice;
-            $params[] = (int)$maxPrice;
+            $params[] = (int) $minPrice;
+            $params[] = (int) $maxPrice;
             $types .= "ii"; // Integer types for min/max price
         }
     }

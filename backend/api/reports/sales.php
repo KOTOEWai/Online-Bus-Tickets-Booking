@@ -1,5 +1,5 @@
 <?php
-include('./cors.php');
+include('../../config/cors.php');
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // as this corrupts the JSON response for the frontend.
 error_reporting(E_ALL); // Report all PHP errors
 ini_set('display_errors', 0); // DO NOT display errors in the browser for production.
-                             // Errors will be logged instead.
+// Errors will be logged instead.
 ini_set('log_errors', 1);    // Log errors to the PHP error log file.
 ini_set('error_log', __DIR__ . '/php-error.log'); // Specify a log file path. Ensure this directory is writable.
 // --- End Error Handling Configuration ---
@@ -21,7 +21,7 @@ ini_set('error_log', __DIR__ . '/php-error.log'); // Specify a log file path. En
 try {
     // Include your database connection file
     // Ensure the path is correct relative to this script.
-    include('../db/BusDb.php'); // Assumed to define $conn
+    include('../../config/db.php'); // Assumed to define $conn
 
     // Check if the database connection was successful
     if (!isset($conn) || $conn->connect_error) {

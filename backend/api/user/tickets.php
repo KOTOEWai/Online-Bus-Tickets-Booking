@@ -21,7 +21,7 @@ ini_set('error_log', __DIR__ . '/php-error.log');
 try {
     // Include your database connection file
     // Adjust the path if your BusDb.php is located elsewhere relative to this file
-    include '../db/BusDb.php';
+    include '../../config/db.php';
 
     if (!isset($conn) || $conn->connect_error) {
         throw new Exception("Database connection failed: " . ($conn->connect_error ?? "Unknown error"));

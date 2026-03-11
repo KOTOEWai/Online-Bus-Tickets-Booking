@@ -1,6 +1,5 @@
-
 <?php
-include('./cors.php'); // Assuming this handles CORS setup
+include('../../config/cors.php'); // Assuming this handles CORS setup
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -18,7 +17,7 @@ ini_set('error_log', __DIR__ . '/php-error.log'); // Specify a log file path.
 try {
     // Include your database connection file
     // Adjust the path if your BusDb.php is located elsewhere relative to this file
-    include('../db/BusDb.php');
+    include('../../config/db.php');
 
     // Check if the database connection was successful
     if (!isset($conn) || $conn->connect_error) {
@@ -31,11 +30,11 @@ try {
 
     // Validate and sanitize input
     $booking_id = filter_var($data['booking_id'] ?? null, FILTER_VALIDATE_INT);
-    $name = (string)($data['name'] ?? ''); // FIX: Replaced FILTER_SANITIZE_STRING
-    $genderType = (string)($data['genderType'] ?? ''); // FIX: Changed variable name to genderType and replaced FILTER_SANITIZE_STRING
-    $phone = (string)($data['phone'] ?? ''); // FIX: Replaced FILTER_SANITIZE_STRING
+    $name = (string) ($data['name'] ?? ''); // FIX: Replaced FILTER_SANITIZE_STRING
+    $genderType = (string) ($data['genderType'] ?? ''); // FIX: Changed variable name to genderType and replaced FILTER_SANITIZE_STRING
+    $phone = (string) ($data['phone'] ?? ''); // FIX: Replaced FILTER_SANITIZE_STRING
     $email = filter_var($data['email'] ?? '', FILTER_SANITIZE_EMAIL);
-    $special_request = (string)($data['special_request'] ?? ''); // FIX: Replaced FILTER_SANITIZE_STRING
+    $special_request = (string) ($data['special_request'] ?? ''); // FIX: Replaced FILTER_SANITIZE_STRING
 
     // Basic validation for required fields
     if (empty($booking_id) || empty($name) || empty($genderType) || empty($phone)) {

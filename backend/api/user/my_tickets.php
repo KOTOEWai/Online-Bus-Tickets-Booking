@@ -1,7 +1,7 @@
 <?php
-include('./cors.php');
+include('../../config/cors.php');
 session_start();
-include '../db/BusDb.php';
+include '../../config/db.php';
 
 if (!isset($_SESSION['user_id'])) {
   echo json_encode(["error" => "Unauthorized"]);

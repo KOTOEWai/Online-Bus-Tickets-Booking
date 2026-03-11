@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  User2, Mail,  Lock, Eye, EyeOff,
+  User2, Mail, Lock, Eye, EyeOff,
   UserPlus, AlertCircle, CheckCircle, XCircle,
-} from 'lucide-react'; 
+} from 'lucide-react';
 import { containerVariants, itemVariants, messageVariants } from '../hooks/useAnimationVariants';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'; // Don't forget to import the styles!
@@ -25,7 +25,7 @@ export default function Register() {
   const handlePhoneChange = (value: string | undefined) => {
     // Update the form state with the new phone number value
     setForm({ ...form, phone: value || '' });
-    
+
     // Validate the phone number and update the validation state
     if (value) {
       setIsPhoneValid(isValidPhoneNumber(value));
@@ -38,7 +38,7 @@ export default function Register() {
     e.preventDefault();
     setMessage(null);
     setMessageType(null);
-    
+
     // --- VALIDATION CHECK ---
     // If phone number is not valid, stop the submission and show an error
     if (!form.phone || !isValidPhoneNumber(form.phone)) {
@@ -51,7 +51,7 @@ export default function Register() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/register.php`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/register.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -104,9 +104,8 @@ export default function Register() {
           <AnimatePresence>
             {message && (
               <motion.div
-                className={`p-3 rounded-lg text-sm mb-6 flex items-center gap-2 ${
-                  messageType === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
-                }`}
+                className={`p-3 rounded-lg text-sm mb-6 flex items-center gap-2 ${messageType === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
+                  }`}
                 variants={messageVariants}
                 initial="hidden"
                 animate="visible"
@@ -252,7 +251,7 @@ export default function Register() {
                 </>
               )}
             </motion.button>
-            
+
             <motion.div className="relative flex items-center justify-center py-4" variants={itemVariants}>
               <div className="flex-grow border-t border-gray-300"></div>
               <span className="flex-shrink mx-4 text-gray-500">OR</span>

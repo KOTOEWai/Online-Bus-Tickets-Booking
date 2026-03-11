@@ -1,7 +1,7 @@
 <?php
-include('./cors.php');
+include('../../config/cors.php');
 session_start();
-include '../db/BusDb.php';
+include '../../config/db.php';
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -16,7 +16,7 @@ ini_set('error_log', __DIR__ . '/php-error.log');
 // --- End Error Handling Configuration ---
 
 try {
-    
+
 
     if (!isset($conn) || $conn->connect_error) {
         throw new Exception("Database connection failed: " . ($conn->connect_error ?? "Unknown error"));
